@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  * {box-sizing: border-box}
+
+  /* Set height of body and the document to 100% */
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+  }
+
+  /* Style tab links */
+  .tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+  }
+
+  .tablink:hover {
+    background-color: #777;
+  }
+
+  /* Style the tab content (and add height:100% for full page content) */
+  .tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 400%;
+  }
+
+  #SSB {background-color: red;}
+  #News {background-color: green;}
+  #Trailers {background-color: blue;}
+  #About {background-color: orange;}
+  </style>
+
+</head>
+<body>
+  <button class="tablink" onclick="openPage('News', this, 'green')">News</button>
+  <button class="tablink" onclick="openPage('SSB', this, 'red')" id="defaultOpen">SSB</button>
+  <button class="tablink" onclick="openPage('Trailers', this, 'blue')">Trailers</button>
+  <button class="tablink" onclick="openPage('About', this, 'orange')">About</button>
+  
+  <div id="SSB" class="tabcontent">
+  <h1 style="border:2px solid DodgerBlue;"">SSB(Study Source Bot)</h1>
+    <p>Hello! I'm a simple chatbot. I can be used to help you find resources for studying for classes.</p>
+    <label for="userInput">User Input:</label>
+   
+    <input type="text" id="userInput">
+    <button onclick="getResponse()">Submit</button>
+    <div id="response"></div>
+
+    <script>
+        class Magpie {
+            getResponse(statement) {
+                let response = "";
+                if (this.findKeyword(statement, "AP") >= 0 || this.findKeyword(statement, "Advanced Placement") >= 0) {
+                    response = "For studying for an AP class or test, I would recommend you search up questions from previous AP Exams as well as watching the AP daily videos found on the college board website.";
+                } else if (this.findKeyword(statement, "sat") >= 0 || this.findKeyword(statement, "psat") >= 0 || this.findKeyword(statement, "dsat") >= 0) {
+                    response = "P/D/SAT studies can be very difficult for many. We suggest that you use www.khanacademy.org/profile/me/sat";
+                } else if (this.findKeyword(statement, "math") >= 0 || this.findKeyword(statement, "math") >= 0 && this.findKeyword(statement, "problem") >= 0 || this.findKeyword(statement, "problems") >= 0) {
+                    response = "If you are looking for math practice problems, kutasoftware.com and khanacademy.org are great for finding some.";
+                } else if (this.findKeyword(statement, "english") >= 0) {
+                    response = "If you need a list of Books to read, or for your English class, a list can be found at https://docs.google.com/document/d/1Iymowvw6b-YMJWwlrvkpCEkbATyinYGAMopAhb8KR9E/edit. If you need to review the contents of a book quickly, you can use shmoop.com as well as sparknotes.com.";
+                } else if (this.findKeyword(statement, "grammar") >= 0) {
+                    response = "Noredink.com as well as Khan Academy SAT grammar can both be useful for improving grammar skills.";
+                } else if (this.findKeyword(statement, "science") >= 0) {
+                    response = "Science is very broad. Please write what subsection of science such as physics, chem, or biology.";
+                } else if (this.findKeyword(statement, "physics") >= 0) {
+                    response = "Albert.io is great for physics practice problems. The Flipping Physics YouTube channel is also great for an overview of key concepts in the courses.";
+                } else if (this.findKeyword(statement, "chem") >= 0 || this.findKeyword(statement, "chemistry") >= 0) {
+                    response = "There are many sources for chem study. We recommend Crash Course as they have many good review videos for organic and normal chem. Albert.io is also great for practicing chem questions as well.";
+                } else if (this.findKeyword(statement, "bio") >= 0 || this.findKeyword(statement, "biology") >= 0) {
+                    response = "There are many sources for biology study. We recommend Crash Course and the Amoeba Sisters as they have many good review videos for bio-related topics. Albert.io is also great for practicing biology questions as well.";
+                } else if (this.findKeyword(statement, "cs") >= 0 || (this.findKeyword(statement, "computer science") >= 0)) {
+                    response = "Ah, I love Computer Science. Would not exist without it. For practice problems, we would recommend Albert.io. Also w3schools.com is great for learning new applications of code. Stack Overflow is a spectacular place for finding those who had similar issues that you may be facing, as well as the solution they had found.";
+                } else if (this.findKeyword(statement, "gov") >= 0 || this.findKeyword(statement, "government") >= 0 || (this.findKeyword(statement, "history") >= 0)) {
+                    response = "For history or US gov, 2 great resources are Crash Course starring John green as well as Himlers History. Himlers History goes well in depth as it covers topics for the AP Exam, but is also very useful for not AP level history courses.";
+                }else if (this.findKeyword(statement, "language") >= 0 || (this.findKeyword(statement, "Spanish") >= 0)|| (this.findKeyword(statement, "french") >= 0) || (this.findKeyword(statement, "chinese") >= 0) || (this.findKeyword(statement, "German") >= 0) || (this.findKeyword(statement, "Japanese") >= 0)|| (this.findKeyword(statement, "latin") >= 0)|| (this.findKeyword(statement, "arabic") >= 0) || (this.findKeyword(statement, "italian") >= 0)  ) {
+                  response = "Flashcards as well as writing down vocabulary can be very helpful for memorizing voacb. Quizlet is a great source for flash cards. You can also use translate sites to learn new words. Speaking the words as well as assocating them with other, similar sounding words with similar meaning can help as well.";
+                } else {
+                    response = this.getRandomResponse();
+                }
+
+                return response;
+            }
+
+            findKeyword(statement, keyword) {
+                statement = statement.toLowerCase();
+                keyword = keyword.toLowerCase();
+
+                let position = statement.indexOf(keyword);
+
+                while (position >= 0) {
+                    let before = ' ';
+                    let after = ' ';
+
+                    if (position > 0) {
+                        before = statement.charAt(position - 1);
+                    }
+
+                    if (position + keyword.length < statement.length) {
+                        after = statement.charAt(position + keyword.length);
+                    }
+
+                    if (!this.isLetter(before) && !this.isLetter(after)) {
+                        return position;
+                    }
+
+                    position = statement.indexOf(keyword, position + 1);
+                }
+
+                return -1;
+            }
+
+            isLetter(char) {
+                return char.length === 1 && char.match(/[a-z]/i);
+            }
+
+            getRandomResponse() {
+                const responses = [
+                    "Hmmm. Please type in a course.",
+                    "I am sorry, could you repeat yourself. Please type in a course.",
+                    "I'm not sure I understand. Please type in a course."
+                ];
+                const index = Math.floor(Math.random() * responses.length);
+                return responses[index];
+            }
+        }
+
+        function getResponse() {
+            const userInput = document.getElementById('userInput').value;
+            const magpie = new Magpie();
+            const response = magpie.getResponse(userInput);
+            document.getElementById('response').innerText = response;
+        }
+      
+    </script>
+    </div>
+
+    <div id="News" class="tabcontent">
+      <h3>News</h3>
+      <p>Lets be honest, we all probablly use one network as our primary source of news. However, all that really does is shrink our mindset and feed us our own thoughts about the world. Bellow, we have organized a bunch of news sources and catogroized them based of their poltical belifes. Keep in mind, this will be mostly amercian news nertworks.<br> <br>Left / Liberal networks<br> www.CNN.com<br>www.Vox.com<br>www.nytimes.com/<br>www.latimes.com<br>www.huffpost.com<br> <br>Right / Conservative networks<br> www.FoxNews.com<br>The Ben Shapiro Show<br> www.WSJ.com<br> https://www.breitbart.com<br>www.infowars.com <br> <br>Central / Mostly Unbiased Sources <br>www.pbs.org<br>www.abcnews.go.com<br>www.BBC.org<br>www.cbsnews.com<br>www.forbes.com<br></p>
+      </p>
+    </div>
+
+    <div id="Trailers" class="tabcontent">
+      <h3>Trailers</h3>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/TiEVqZ2Bc_c?si=aQbp1ROI4eUqwoC0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/9OhV3IWUsxE?si=7LinmQxOuhkCDUBv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/9fVYKsEmuRo?si=9PvKg_eySf8Xys2p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/1JLUn2DFW4w?si=xC2Ou9NOD9T8ZBZ5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/IeFWNtMo1Fs?si=YJ6436xTw918FXUk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/NxW_X4kzeus?si=8wtPJ8dFCwinaryN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/VWavstJydZU?si=5UEsZrtovEcWOATB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/UaVTIH8mujA?si=3i4AUUs-rpN6buqo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
+    <div id="About" class="tabcontent">
+      <h3>About</h3>
+      <p>this site has 3 things going fo it. Help find different sources to study from, an area to chill and watch stuff(trailers currently), and to educate people about news consumption.</p>
+    </div>
+
+    <script>
+    function openPage(pageName,elmnt,color) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+      }
+      document.getElementById(pageName).style.display = "block";
+      elmnt.style.backgroundColor = color;
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>
